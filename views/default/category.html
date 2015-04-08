@@ -1,0 +1,109 @@
+{{extend 'layout.html'}}
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+
+
+
+<div class="container">
+
+   <ul class="nav">
+         <li class="{{if category=='Art':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Art')}}">Art</a></li>
+        <li class="{{if category=='Language_Arts':}}active{{pass}}"><a class="dropdown-toggle" data-toggle="dropdown" href="{{=URL('default', 'category', args='Language_Arts')}}">Language Arts <b class="caret"></b></a>
+            
+            <ul class="dropdown-menu">
+                <li class="{{if category=='Grammar':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Grammar')}}">Grammar</a></li>
+                <li class="{{if category=='Penmanship':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Penmanship')}}">Penmanship</a></li>
+                <li class="{{if category=='Phonics':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Phonics')}}">Phonics</a></li>
+                <li class="{{if category=='Reading':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Reading')}}">Reading</a></li>
+                <li class="{{if category=='Spelling':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Spelling')}}">Spelling</a></li>
+                <li class="{{if category=='Vocabulary':}}active{{pass}}"><a  href="{{=URL('default', 'category', args='Vocabulary')}}">Vocabulary</a></li>
+                <li class="{{if category=='Writing':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Writing')}}">Writing</a></li>
+            </ul>
+        </li>
+        
+
+        <li class="{{if category=='Math':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Math')}}">Math</a></li>
+        <li class="{{if category=='Music':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Music')}}">Music</a></li>
+        
+       
+        <li class="{{if category=='Science':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Science')}}">Science</a></li>
+        <li class="{{if category=='Social_Studies':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Social_Studies')}}">Social Studies</a></li>
+        <li class="{{if category=='Supplies':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Supplies')}}">Supplies</a></li>
+        <li class="{{if category=='Technology':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Technology')}}">Technology</a></li>
+        <li class="{{if category=='Foreign_Language':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Foreign_Language')}}">Foreign Language</a></li>
+
+    </ul>
+
+<!--
+
+<div class="container">
+    <ul class="nav">
+        <li class="{{if category=='Art':}}{{pass}}"><a href="{{=URL('default', 'category', args='Art')}}">Art</a></li>
+        <li class="{{if category=='Language Arts':}}active{{pass}}"><a class="dropdown-toggle" data-toggle="dropdown" href="{{=URL('default', 'category', args='Language_Arts')}}">Language Arts <b class="caret"></b></a>
+            
+            <ul>
+                <li class="{{if category=='Grammar':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Grammar')}}">Grammar</a></li>
+                <li class="{{if category=='Penmanship':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Penmanship')}}">Penmanship</a></li>
+                <li class="{{if category=='Phonics':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Phonics')}}">Phonics</a></li>
+                <li class="{{if category=='Reading':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Reading')}}">Reading</a></li>
+                <li class="{{if category=='Spelling':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Spelling')}}">Spelling</a></li>
+                <li class="{{if category=='Vocabulary':}}active{{pass}}"><a  href="{{=URL('default', 'category', args='Vocabulary')}}">Vocabulary</a></li>
+                <li class="{{if category=='Writing':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Writing')}}">Writing</a></li>
+            </ul>
+        </li>
+        
+
+        <li class="{{if category=='Math':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Math')}}">Math</a></li>
+        <li class="{{if category=='Music':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Music')}}">Music</a></li>
+        
+       
+        <li class="{{if category=='Science':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Science')}}">Science</a></li>
+        <li class="{{if category=='Social Studies':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Social_Studies')}}">Social Studies</a></li>
+        <li class="{{if category=='Supplies':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Supplies')}}">Supplies</a></li>
+        <li class="{{if category=='Technology':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Technology')}}">Technology</a></li>
+        <li class="{{if category=='Foreign Language':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Foreign_Language')}}">Foreign Language</a></li>
+
+    </ul>
+</div>
+
+
+-->
+
+<table id="example" class="table table-striped table-hover">
+	<thead>
+		<tr>
+				<!--<td><ul><li><h4>Vendor</h4></li><li> <em>(Click a vendor to view feedbacks)</em></li></ul></td>-->
+				<td><h4><strong>Vendor</strong></h4><em> (Click a vendor to view feedbacks)</em></td>
+				<td><h4><strong>Website</strong></h4></td>
+		</tr>
+	</thead>
+	<tbody>
+		{{if rows:}}
+		{{for row in  rows:}}
+		{{vendor_name = db(db.vendor.id == row.vendor_id).select().first()}}
+		
+		<tr>		
+				
+				<td>
+					<a href="{{=URL('default','view',args=(row.vendor_id, category))}}">{{=vendor_name.name}}</a>
+                  <em>
+                                {{if vendor_name.note:}}({{=vendor_name.note}}){{else:}}{{pass}}</em>
+				</td>
+				<td>
+					<a href="{{=vendor_name.website}}" target="_blank">{{=vendor_name.website}}</a>
+				</td>	
+		</tr>
+		{{pass}}
+		{{pass}}
+	</tbody>
+</table>
+
+
+ <div class="alert alert-danger"><p><strong>PLEASE NOTE:</strong> If you return an item/order to the vendor, you must email billing@ethompson.org and list the items you are returning along with the vendor you ordered from. If you do not do this, you run the risk of not getting the money reimbursed back to your allotment. (Some vendors credit the school and don't list who the credit is for).</p>
+
+    <p>Please also note that if you return an item/order to the vendor, you must pay out of pocket for the shipping cost and MBTA will <strong>not</strong> reimburse you for that.</p></div>
+
+
+
+</div> <!-- end of container -->

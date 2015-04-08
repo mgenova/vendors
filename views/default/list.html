@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+
+
+
+
+
+[ {{=A('search', _href=URL('search'))}} ]<br />
+
+<ul>{{for vendor in vendors:}}
+     {{=LI(A(vendor.name, _href=URL('view', args=vendor.id)))}}
+{{pass}}</ul>
+
+[ {{=A('create page', _href=URL('create'))}} ]
+<h1>Available Vendors</h1>
+
+
+{{pass}}</ul>
+	

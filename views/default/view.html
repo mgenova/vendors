@@ -1,0 +1,278 @@
+ {{extend 'layout.html'}}
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="{{=URL('static', 'js/application.js')}}"></script>
+
+
+  
+
+
+<div class="container">
+
+   
+
+
+    <ul class="nav">
+        <li class="{{if category=='Art':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Art')}}">Art</a></li>
+        <li class="{{if category=='Language_Arts':}}active{{pass}}"><a class="dropdown-toggle" data-toggle="dropdown" href="{{=URL('default', 'category', args='Language_Arts')}}">Language Arts <b class="caret"></b></a>
+            
+            <ul class="dropdown-menu">
+                <li class="{{if category=='Grammar':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Grammar')}}">Grammar</a></li>
+                <li class="{{if category=='Penmanship':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Penmanship')}}">Penmanship</a></li>
+                <li class="{{if category=='Phonics':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Phonics')}}">Phonics</a></li>
+                <li class="{{if category=='Reading':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Reading')}}">Reading</a></li>
+                <li class="{{if category=='Spelling':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Spelling')}}">Spelling</a></li>
+                <li class="{{if category=='Vocabulary':}}active{{pass}}"><a  href="{{=URL('default', 'category', args='Vocabulary')}}">Vocabulary</a></li>
+                <li class="{{if category=='Writing':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Writing')}}">Writing</a></li>
+            </ul>
+        </li>
+        
+
+        <li class="{{if category=='Math':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Math')}}">Math</a></li>
+        <li class="{{if category=='Music':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Music')}}">Music</a></li>
+        
+       
+        <li class="{{if category=='Science':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Science')}}">Science</a></li>
+        <li class="{{if category=='Social_Studies':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Social_Studies')}}">Social Studies</a></li>
+        <li class="{{if category=='Supplies':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Supplies')}}">Supplies</a></li>
+        <li class="{{if category=='Technology':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Technology')}}">Technology</a></li>
+        <li class="{{if category=='Foreign_Language':}}active{{pass}}"><a href="{{=URL('default', 'category', args='Foreign_Language')}}">Foreign Language</a></li>
+
+    </ul>
+
+
+<div class="page-header">
+  <!--<h2>{{=vendor.name}}</h2>-->
+  <a href="{{=vendor.website}}"> {{=vendor.name}}</a>
+
+
+
+</div>
+<!--
+ {{for category in categories:}}
+        <span class="label label-info">{{=category.name}}</span>
+    {{pass}}
+-->
+
+       <!-- Vendor URL: <div id="vendor-url">{{=vendor.website}}</div> -->
+    
+        <div class="avg-rate">
+            <ul>
+            <li><h2><small>Average Rating:</small></h2></li>
+            <li><span class="stars">{{=rating}}</span></li>
+            <li><h2><small><strong>{{=round(rating,1)}}</strong>/5</h2></li>
+            </ul>
+        </div>
+        <!--<h1>{{=rating}}</h1>-->
+
+
+
+
+
+    
+	
+<!-- DISPLAYS COMMENTS AND FEEDBACKS -->
+
+
+    <div class="row">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title">
+                    Recent Comments:</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    {{if comments:}}
+                        {{for comment in comments:}}
+                        <li class="list-group-item">
+                            <div class="row"> 
+
+                                <div class="col-xs-10 col-md-11">
+                                    
+
+
+                                    <div class="rating2">
+                                        <ul>
+                                        <li><strong>Rated:</strong></li>
+                                        <li><span class="stars">{{=comment.rating}}</span></li>
+                                        <ul>
+                                    </div>
+
+                                    <div class="rating2">
+                                        <ul>
+                                        <li><strong>Product Category:</strong></li>
+                                        <li><span class="product">
+                                            {{prod_category = db(db.category_name.id == comment.product_category).select().first()}}
+                                            {{#=comment.product_category}}
+                                            {{if prod_category:}}{{=prod_category.name}}{{else:}}No Category{{pass}}
+                                            </span>
+                                        </li>
+                                        <ul>
+                                    </div>
+
+                                    <div class="rating2">
+                                        <ul>
+                                        <li><strong>Product Name:</strong></li>
+                                        <li><span class="product">{{=comment.product_name}}</span></li>
+                                        <ul>
+                                    </div>
+
+                                    <div class="rating2">
+                                        <ul>
+                                        <li><strong>Product Website:</strong></li>
+                                        <li><span class="product">{{=comment.product_url}}</span></li>
+                                        <ul>
+                                    </div>
+                                   
+
+
+                                    <div class="mic-info">
+
+                                        {{author = db(db.auth_user.id == comment.created_by).select().first()}}
+                                        {{if comment.anonymous:}}
+                                            <strong>By:</strong> <em>Anonymous</em>, <strong>Grade {{=comment.grade_level}}</strong> on {{=comment.created_on.strftime("%B %d, %Y")}}
+                                        {{else:}}
+                                            <strong>By:</strong> <em>{{=author.first_name + " " + author.last_name }}</em>, <strong>Grade {{=comment.grade_level}}</strong> on {{=comment.created_on.strftime("%B %d, %Y")}}
+                                        {{pass}}
+                                    </div>
+                                   
+                                    <div class="comment-text">
+                                        <strong>Comments:</strong> {{=comment.comments}} 
+                                    </div>
+                                   
+                                </div>
+
+
+                            </div>
+                        </li>
+                        {{pass}}
+                    {{pass}}
+                </ul>
+             <!--  <a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a> -->
+
+             </div>
+        </div>
+    </div>
+
+
+
+
+  
+<!-- FILLABLE COMMENT FEEDBACK -->
+
+
+    <div class="row">
+         {{=form.custom.begin}}   
+
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-comment"></span>
+                <h3 class="panel-title">
+                    Post a Comment:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-7">
+                        {{form.custom.widget.comments['_class']='form-control input-sm' }}
+                        {{form.custom.widget.comments['_style']='height:200px; width:400px;' }}
+
+                        {{=form.custom.widget.comments}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <ul class="rate">
+                            <li class="grade"><h4>Product Category:</h4></li>
+                            <li>{{form.custom.widget.product_category['_class']='btn btn-default btn-lg dropdown-toggle'}}
+                                {{=form.custom.widget.product_category}}</li> 
+                               
+                        </ul>
+                    </div>
+                </div>
+
+                
+                 <div class="row">
+                    <div class="col-md-7">
+                        <ul class="rate">
+                            <li class="grade"><h4>Product Name:</h4></li>
+                            <li> {{form.custom.widget.product_name['_class']='form-control input-sm'}}
+                                {{form.custom.widget.product_name['_style']='width: 300px;'}}
+                                 {{=form.custom.widget.product_name}}</li> 
+                               
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-7">
+                        <ul class="rate">
+                            <li class="grade"><h4>Product Website:</h4></li>
+                                <li>{{form.custom.widget.product_url['_class']='form-control input-sm'}}
+                                {{form.custom.widget.product_url['_style']='width: 290px;'}}
+                                {{=form.custom.widget.product_url}}</li> 
+                        </ul>
+                    </div>
+                </div>
+                
+
+
+                <div class="row"> 
+                    <div class="col-md-7">
+                        <ul class="rate">
+                                <li class="rating"><h4> Rate:</h4></li>
+                                <li class="rating">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+                                </li>
+                        </ul> 
+                    </div>              
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <ul class="rate">
+                            <li class="grade"><h4>Grade Level:</h4></li>
+                            <li>{{form.custom.widget.grade_level['_class']='btn btn-default btn-lg dropdown-toggle'}}
+                                {{=form.custom.widget.grade_level}}</li> 
+                        </ul>
+                    </div>
+                </div>
+
+
+
+                  <div class="row"> 
+                    <div class="col-md-7">
+                        <ul class="rate">
+                                <li class="anonymous"><h4>Anonymous:</h4></li>
+                                <li class="anonymous">
+                                    <input type="checkbox" name="anonymous" value="anonymous" />
+                                   
+                                </li>
+                        </ul> 
+                    </div>              
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-7">
+                        {{form.custom.submit['_class']='btn btn-success'}}
+                        {{=form.custom.submit}}
+                   </div>
+                </div>
+
+             
+             </div>
+        </div>
+     
+
+    {{=form.custom.end}}
+
+    </div>
+
+</div>
+
+</div> <!-- end of container -->

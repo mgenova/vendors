@@ -1,0 +1,46 @@
+{{extend 'layout.html'}}
+
+
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Art')}}">Art</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Grammar')}}">Grammar</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Language_Arts')}}">Language Arts</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Math')}}">Math</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Reading')}}">Reading</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Science')}}">Science</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Social_Studies')}}">Social Studies</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Software')}}">Software</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Spelling')}}">Spelling</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Supplies')}}">Supplies</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Technology')}}">Technology</a>
+<a class="btn btn-info" href="{{=URL('vendor', 'category', args='Writing')}}">Writing</a>
+
+
+
+
+
+<table id="example" class="table table-stripe table-hover" >
+  <thead>
+    <tr>
+        <td><h4>Category</h4></td>
+        <td><h4>Vendor</h4></td>
+        <td><h4>Website</h4></td>
+    </tr>
+  </thead>
+  <tbody>
+    {{for row in  rows:}}
+    {{vendor_name = db(db.vendor.id == row.vendor_id).select().first()}}
+    
+    <tr>    
+        <td>
+          {{=row.name}}
+        </td>
+        <td>
+          <a href="{{=URL('vendor','view',args=row.vendor_id)}}">{{=vendor_name.name}}</a>
+        </td>
+        <td>
+          <a href="{{=vendor_name.website}}" target="_blank">{{=vendor_name.website}}</a>
+        </td> 
+    </tr>
+    {{pass}}
+  </tbody>
+</table>

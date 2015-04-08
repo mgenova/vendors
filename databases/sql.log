@@ -1,0 +1,124 @@
+timestamp: 2014-02-11T10:34:33.092518
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2014-02-11T10:34:33.367695
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2014-02-11T10:34:35.188129
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-02-11T10:34:37.532565
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2014-02-11T10:34:39.086957
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2014-02-11T10:34:40.582250
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2014-02-11T10:34:41.786836
+CREATE TABLE feedback(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    vendor_id INTEGER REFERENCES vendor (id) ON DELETE CASCADE,
+    rating INTEGER,
+    grade_level CHAR(512),
+    comments TEXT,
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-02-11T11:16:13.978641
+CREATE TABLE vendor(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512) UNIQUE,
+    website CHAR(512),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-02-11T11:16:14.100209
+CREATE TABLE category(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    vendor_id INTEGER REFERENCES vendor (id) ON DELETE CASCADE,
+    name CHAR(512)
+);
+success!
+timestamp: 2014-02-18T18:48:53.305351
+CREATE TABLE average_rating(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    avg_rating DOUBLE
+);
+success!
+timestamp: 2014-02-21T11:25:43.761293
+ALTER TABLE feedback ADD posted_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE;
+timestamp: 2014-02-21T11:25:43.795095
+ALTER TABLE feedback ADD posted_on TIMESTAMP;
+timestamp: 2014-04-02T13:05:12.137566
+ALTER TABLE auth_user ADD anonymous CHAR(512);
+timestamp: 2014-04-03T12:50:22.891015
+ALTER TABLE auth_user ADD username CHAR(128);
+timestamp: 2014-04-07T12:04:51.135462
+ALTER TABLE feedback ADD anonymous CHAR(1);
+timestamp: 2014-04-07T15:40:45.898037
+ALTER TABLE auth_user ADD name CHAR(512);
+timestamp: 2014-04-14T14:16:04.965292
+ALTER TABLE auth_user ADD created_by CHAR(512);
+timestamp: 2014-05-06T11:26:53.424384
+ALTER TABLE feedback ADD product_category INTEGER REFERENCES category (id) ON DELETE CASCADE;
+timestamp: 2014-05-06T11:26:53.439186
+ALTER TABLE feedback ADD product_url CHAR(512);
+timestamp: 2014-05-06T11:26:53.442608
+ALTER TABLE feedback ADD product_nametext CHAR(512);
+timestamp: 2014-05-06T11:30:29.507347
+CREATE TABLE category_name(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512)
+);
+success!
+timestamp: 2014-05-07T11:17:38.756787
+ALTER TABLE feedback ADD product_name TEXT;
+timestamp: 2014-06-04T09:08:45.746816
+ALTER TABLE vendor ADD note CHAR(512);
